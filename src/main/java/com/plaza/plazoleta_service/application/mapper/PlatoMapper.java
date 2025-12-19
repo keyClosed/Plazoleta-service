@@ -2,6 +2,7 @@ package com.plaza.plazoleta_service.application.mapper;
 
 import com.plaza.plazoleta_service.application.dto.request.CrearPlatoRequest;
 import com.plaza.plazoleta_service.application.dto.response.PlatoResponse;
+import com.plaza.plazoleta_service.application.dto.response.ModificarPlatoResponse;
 import com.plaza.plazoleta_service.domain.model.Plato;
 import org.springframework.stereotype.Component;
 
@@ -30,5 +31,18 @@ public class PlatoMapper {
         response.setActivo(plato.isActivo());
         response.setIdRestaurante(plato.getIdRestaurante());
         return response;
+    }
+
+    public ModificarPlatoResponse toModificarPlatoResponse(Plato plato) {
+        if (plato == null) {
+            return null;
+        }
+
+        return new ModificarPlatoResponse(
+                plato.getId(),
+                plato.getPrecio(),
+                plato.getDescripcion(),
+                plato.isActivo()
+        );
     }
 }

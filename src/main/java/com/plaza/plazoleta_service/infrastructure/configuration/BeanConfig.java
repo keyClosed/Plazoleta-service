@@ -3,6 +3,7 @@ package com.plaza.plazoleta_service.infrastructure.configuration;
 import com.plaza.plazoleta_service.application.mapper.RestauranteMapper;
 import com.plaza.plazoleta_service.domain.spi.IPlatoPersistencePort;
 import com.plaza.plazoleta_service.domain.usecase.CrearPlatoUseCase;
+import com.plaza.plazoleta_service.domain.usecase.ModificarPlatoUseCase;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -19,6 +20,12 @@ public class BeanConfig{
             IPlatoPersistencePort platoPersistencePort
     ) {
         return new CrearPlatoUseCase(platoPersistencePort);
+    }
+    @Bean
+    public ModificarPlatoUseCase modificarPlatoUseCase(
+            IPlatoPersistencePort platoPersistencePort
+    ) {
+        return new ModificarPlatoUseCase(platoPersistencePort);
     }
 
 }

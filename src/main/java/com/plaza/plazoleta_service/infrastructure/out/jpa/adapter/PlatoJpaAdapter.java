@@ -8,6 +8,8 @@ import com.plaza.plazoleta_service.infrastructure.out.jpa.repository.PlatoReposi
 import com.plaza.plazoleta_service.infrastructure.out.jpa.repository.RestauranteRepository;
 import org.springframework.stereotype.Component;
 
+import java.util.Optional;
+
 @Component
 public class PlatoJpaAdapter implements IPlatoPersistencePort {
 
@@ -40,5 +42,11 @@ public class PlatoJpaAdapter implements IPlatoPersistencePort {
     @Override
     public boolean esPropietarioDelRestaurante(Long idPropietario, Long idRestaurante) {
         return restauranteRepository.existsByIdAndIdPropietario(idRestaurante, idPropietario);
+    }
+
+    @Override
+    public Optional<Plato> obtenerPlatoPorId(Long idPlato) {
+        return platoRepository.findById(idPlato)
+                .map(platoEntityMapper::toModel);
     }
 }

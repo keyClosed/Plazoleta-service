@@ -9,6 +9,7 @@ public class PlatoEntityMapper {
 
     public PlatoEntity toEntity(Plato model) {
         PlatoEntity entity = new PlatoEntity();
+        entity.setId(model.getId()); //Modificar HU-4
         entity.setNombre(model.getNombre());
         entity.setDescripcion(model.getDescripcion());
         entity.setPrecio(model.getPrecio());
