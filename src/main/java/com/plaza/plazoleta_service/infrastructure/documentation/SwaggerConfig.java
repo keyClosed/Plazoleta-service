@@ -23,7 +23,7 @@ public class SwaggerConfig {
                 )
                 .externalDocs(new ExternalDocumentation()
                         .description("Documentación del proyecto")
-                        .url("https://github.com/keycloaset/microservicio-plazoleta")
+                        .url("https://github.com/keycloset/microservicio-plazoleta")
                 );
     }
 }

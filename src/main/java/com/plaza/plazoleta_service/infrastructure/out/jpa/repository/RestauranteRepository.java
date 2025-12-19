@@ -7,10 +7,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface RestauranteRepository extends JpaRepository<RestauranteEntity, Long> {
 
-    // Puedes agregar consultas personalizadas si las necesitas
-    // Ejemplo: buscar por NIT
     boolean existsByNit(String nit);
+    boolean existsByIdAndIdPropietario(Long idRestaurante, long idPropietario);
 
-    // Ejemplo: buscar por propietario
-    // List<RestauranteEntity> findByIdPropietario(String idPropietario);
 }
