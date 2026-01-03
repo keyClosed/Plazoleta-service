@@ -27,7 +27,7 @@ public class RestauranteController {
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
-    // Aquí puedes agregar otros endpoints, por ejemplo:
+    //
     // - Listar restaurantes
     // - Obtener restaurante por ID
     // - Actualizar restaurante
