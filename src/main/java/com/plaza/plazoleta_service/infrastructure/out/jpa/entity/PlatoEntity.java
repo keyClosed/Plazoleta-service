@@ -19,14 +19,14 @@ public class PlatoEntity {
     @Column(name = "id_restaurante")
     private Long idRestaurante;
 
-    @Column(name = "id_propietario")
+    @Column(name = "idpropietario")
     private Long idPropietario;
+
 
     private boolean activo;
 
     public PlatoEntity() {}
 
-    /* ===== GETTERS Y SETTERS ===== */
 
     public Long getId() {
         return id;

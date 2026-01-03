@@ -41,7 +41,7 @@ public class PropietarioClientAdapter implements IPropietarioClientPort {
             return new Propietario(String.valueOf(id), nombre, rol);
 
         } catch (Exception e) {
-            // Lanzamos la excepción para que Plazoleta Service lo reciba claramente
+
             throw new RuntimeException("Error al obtener propietario con ID " + id + ": " + e.getMessage(), e);
         }
     }

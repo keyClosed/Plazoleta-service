@@ -19,7 +19,6 @@ public class CrearPlatoUseCase implements ICrearPlatoService {
         validarCampos(plato);
         validarRestaurante(plato);
         validarPropietario(idPropietario, plato.getIdRestaurante());
-
         plato.setActivo(true);
         return platoPersistencePort.guardarPlato(plato);
     }

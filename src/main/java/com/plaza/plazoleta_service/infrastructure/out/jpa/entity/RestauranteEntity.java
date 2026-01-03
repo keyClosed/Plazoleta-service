@@ -25,8 +25,9 @@ public class RestauranteEntity {
     @Column(nullable = false)
     private String urlLogo;
 
-    @Column(nullable = false)
-    private long idPropietario; // referencia al propietario (id de usuario)
+    @Column(name = "idpropietario", nullable = false)
+    private long idPropietario;
+    
 
     public RestauranteEntity() {}
 

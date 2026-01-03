@@ -21,6 +21,7 @@ public class PlatoJpaAdapter implements IPlatoPersistencePort {
             PlatoRepository platoRepository,
             RestauranteRepository restauranteRepository,
             PlatoEntityMapper platoEntityMapper
+
     ) {
         this.platoRepository = platoRepository;
         this.restauranteRepository = restauranteRepository;
@@ -31,6 +32,7 @@ public class PlatoJpaAdapter implements IPlatoPersistencePort {
     public Plato guardarPlato(Plato plato) {
         PlatoEntity entity = platoEntityMapper.toEntity(plato);
         PlatoEntity saved = platoRepository.save(entity);
+
         return platoEntityMapper.toModel(saved);
     }
 
