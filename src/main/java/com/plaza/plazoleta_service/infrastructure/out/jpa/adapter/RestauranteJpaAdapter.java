@@ -5,6 +5,8 @@ import com.plaza.plazoleta_service.domain.spi.IRestaurantePersistencePort;
 import com.plaza.plazoleta_service.infrastructure.out.jpa.entity.RestauranteEntity;
 import com.plaza.plazoleta_service.infrastructure.out.jpa.mapper.RestauranteEntityMapper;
 import com.plaza.plazoleta_service.infrastructure.out.jpa.repository.RestauranteRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -37,10 +39,11 @@ public class RestauranteJpaAdapter implements IRestaurantePersistencePort {
     }
 
     @Override
-    public List<Restaurante> listarRestaurantes() {
-        List<RestauranteEntity> entities = restauranteRepository.findAll();
-        return entities.stream()
-                .map(restauranteEntityMapper::entityToRestaurante)
-                .collect(Collectors.toList());
+    public Page<Restaurante> listarRestaurantes(Pageable pageable) {
+        return restauranteRepository
+                .findAll(pageable)
+                .map(restauranteEntityMapper::entityToRestaurante);
     }
+
+
 }
