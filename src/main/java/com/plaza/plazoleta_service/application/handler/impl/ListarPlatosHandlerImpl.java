@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 public class ListarPlatosHandlerImpl implements ListarPlatosHandler {
 
     private final ListarPlatosUseCase listarPlatosUseCase;
-    private final ListarPlatoMapper listarPlatoMapper; // <--- aquí
+    private final ListarPlatoMapper listarPlatoMapper;
 
     public ListarPlatosHandlerImpl(
             ListarPlatosUseCase listarPlatosUseCase,
