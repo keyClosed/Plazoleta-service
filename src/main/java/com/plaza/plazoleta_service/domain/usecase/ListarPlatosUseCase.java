@@ -1,6 +1,7 @@
 package com.plaza.plazoleta_service.domain.usecase;
 
 import com.plaza.plazoleta_service.domain.api.IListarPlatosService;
+import com.plaza.plazoleta_service.domain.exception.PlatoException;
 import com.plaza.plazoleta_service.domain.model.Plato;
 import com.plaza.plazoleta_service.domain.spi.IPlatoPersistencePort;
 import org.springframework.data.domain.Page;
@@ -21,12 +22,13 @@ public class ListarPlatosUseCase implements IListarPlatosService {
     public Page<Plato> listarPlatos(Long idRestaurante, int page, int size, String categoria) {
 
         if (page < 0) {
-            throw new IllegalArgumentException("La página no puede ser negativa");
+            throw new PlatoException("La página no puede ser negativa");
         }
 
         if (size <= 0) {
-            throw new IllegalArgumentException("El tamaño de página debe ser mayor a 0");
+            throw new PlatoException("El tamaño de página debe ser mayor a 0");
         }
+
 
         Pageable pageable = PageRequest.of(page, size, Sort.by("nombre").ascending());
 

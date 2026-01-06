@@ -3,10 +3,7 @@ package com.plaza.plazoleta_service.infrastructure.input.rest;
 import com.plaza.plazoleta_service.application.dto.request.CambiarEstadoPlatoRequest;
 import com.plaza.plazoleta_service.application.dto.request.CrearPlatoRequest;
 import com.plaza.plazoleta_service.application.dto.request.ModificarPlatoRequest;
-import com.plaza.plazoleta_service.application.dto.response.CambiarEstadoPlatoResponse;
-import com.plaza.plazoleta_service.application.dto.response.ListarPlatoResponse;
-import com.plaza.plazoleta_service.application.dto.response.ModificarPlatoResponse;
-import com.plaza.plazoleta_service.application.dto.response.PlatoResponse;
+import com.plaza.plazoleta_service.application.dto.response.*;
 import com.plaza.plazoleta_service.application.handler.CambiarEstadoPlatoHandler;
 import com.plaza.plazoleta_service.application.handler.CrearPlatoHandler;
 import com.plaza.plazoleta_service.application.handler.ModificarPlatoHandler;
@@ -15,6 +12,7 @@ import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -77,17 +75,28 @@ public class PlatoController {
         return ResponseEntity.ok(response);
     }
     @GetMapping("/restaurante/{idRestaurante}")
-    public ResponseEntity<Page<ListarPlatoResponse>> listarPlatos(
+    @PreAuthorize("hasRole('CLIENTE')")
+    public ResponseEntity<PageResponse<ListarPlatoResponse>> listarPlatos(
             @PathVariable Long idRestaurante,
             @RequestParam int page,
             @RequestParam int size,
             @RequestParam(required = false) String categoria
     ) {
-        Page<ListarPlatoResponse> response = listarPlatosHandlerImpl.listar(
-                idRestaurante, page, size, categoria
-        );
+        Page<ListarPlatoResponse> result =
+                listarPlatosHandlerImpl.listar(idRestaurante, page, size, categoria);
+
+        PageResponse<ListarPlatoResponse> response =
+                new PageResponse<>(
+                        result.getContent(),
+                        result.getNumber(),
+                        result.getSize(),
+                        result.getTotalElements()
+                );
+
         return ResponseEntity.ok(response);
     }
+
+
 
 
 
