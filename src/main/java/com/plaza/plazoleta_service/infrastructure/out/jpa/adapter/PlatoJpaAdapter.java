@@ -6,6 +6,8 @@ import com.plaza.plazoleta_service.infrastructure.out.jpa.entity.PlatoEntity;
 import com.plaza.plazoleta_service.infrastructure.out.jpa.mapper.PlatoEntityMapper;
 import com.plaza.plazoleta_service.infrastructure.out.jpa.repository.PlatoRepository;
 import com.plaza.plazoleta_service.infrastructure.out.jpa.repository.RestauranteRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
 import java.util.Optional;
@@ -51,4 +53,18 @@ public class PlatoJpaAdapter implements IPlatoPersistencePort {
         return platoRepository.findById(idPlato)
                 .map(platoEntityMapper::toModel);
     }
+
+    @Override
+    public Page<Plato> listarPlatos(Long idRestaurante, String categoria, Pageable pageable) {
+        Page<PlatoEntity> pageEntities;
+
+        if (categoria == null || categoria.isBlank()) {
+            pageEntities = platoRepository.findByIdRestaurante(idRestaurante, pageable);
+        } else {
+            pageEntities = platoRepository.findByIdRestauranteAndCategoriaIgnoreCase(idRestaurante, categoria, pageable);
+        }
+
+        return pageEntities.map(platoEntityMapper::toModel);
+    }
+
 }
