@@ -4,12 +4,15 @@ import com.plaza.plazoleta_service.application.dto.request.CambiarEstadoPlatoReq
 import com.plaza.plazoleta_service.application.dto.request.CrearPlatoRequest;
 import com.plaza.plazoleta_service.application.dto.request.ModificarPlatoRequest;
 import com.plaza.plazoleta_service.application.dto.response.CambiarEstadoPlatoResponse;
+import com.plaza.plazoleta_service.application.dto.response.ListarPlatoResponse;
 import com.plaza.plazoleta_service.application.dto.response.ModificarPlatoResponse;
 import com.plaza.plazoleta_service.application.dto.response.PlatoResponse;
 import com.plaza.plazoleta_service.application.handler.CambiarEstadoPlatoHandler;
 import com.plaza.plazoleta_service.application.handler.CrearPlatoHandler;
 import com.plaza.plazoleta_service.application.handler.ModificarPlatoHandler;
+import com.plaza.plazoleta_service.application.handler.impl.ListarPlatosHandlerImpl;
 import jakarta.validation.Valid;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -21,16 +24,18 @@ public class PlatoController {
     private final CrearPlatoHandler crearPlatoHandler;
     private final ModificarPlatoHandler modificarPlatoHandler;
     private final CambiarEstadoPlatoHandler cambiarEstadoPlatoHandler;
+    private final ListarPlatosHandlerImpl listarPlatosHandlerImpl;
 
 
     public PlatoController(
             CrearPlatoHandler crearPlatoHandler,
             ModificarPlatoHandler modificarPlatoHandler,
-            CambiarEstadoPlatoHandler cambiarEstadoPlatoHandler
-    ) {
+            CambiarEstadoPlatoHandler cambiarEstadoPlatoHandler,
+            ListarPlatosHandlerImpl listarPlatosHandlerImpl) {
         this.crearPlatoHandler = crearPlatoHandler;
         this.modificarPlatoHandler = modificarPlatoHandler;
         this.cambiarEstadoPlatoHandler = cambiarEstadoPlatoHandler;
+        this.listarPlatosHandlerImpl = listarPlatosHandlerImpl;
     }
 
 
@@ -69,6 +74,18 @@ public class PlatoController {
                         idPropietario,
                         request
                 );
+        return ResponseEntity.ok(response);
+    }
+    @GetMapping("/restaurante/{idRestaurante}")
+    public ResponseEntity<Page<ListarPlatoResponse>> listarPlatos(
+            @PathVariable Long idRestaurante,
+            @RequestParam int page,
+            @RequestParam int size,
+            @RequestParam(required = false) String categoria
+    ) {
+        Page<ListarPlatoResponse> response = listarPlatosHandlerImpl.listar(
+                idRestaurante, page, size, categoria
+        );
         return ResponseEntity.ok(response);
     }
 
