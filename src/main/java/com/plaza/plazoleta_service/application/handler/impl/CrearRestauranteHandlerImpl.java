@@ -24,15 +24,11 @@ public class CrearRestauranteHandlerImpl implements CrearRestauranteHandler {
     @Override
     public RestauranteResponse crearRestaurante(CrearRestauranteRequest request) {
 
-        // Consultar al propietario usando el SPI
         Propietario propietario = propietarioClientPort.obtenerPropietarioPorId(request.getIdPropietario());
         if (propietario == null || !"PROPIETARIO".equals(propietario.getRol())) {
             throw new RuntimeException("El ID del propietario no es válido");
         }
 
-
-
-        // Crear restaurante en dominio
         Restaurante restaurante = new Restaurante(
                 request.getNombre(),
                 request.getNit(),
@@ -42,10 +38,8 @@ public class CrearRestauranteHandlerImpl implements CrearRestauranteHandler {
                 request.getIdPropietario()
         );
 
-        // Guardar usando el puerto de persistencia
         Restaurante restauranteGuardado = restaurantePersistencePort.guardarRestaurante(restaurante);
 
-        // Mapear a Response
         return new RestauranteResponse(
                 restauranteGuardado.getId(),
                 restauranteGuardado.getNombre(),

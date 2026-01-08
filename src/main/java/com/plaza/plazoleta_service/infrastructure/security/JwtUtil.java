@@ -18,7 +18,7 @@ public class JwtUtil {
     public String generateToken(String correo, String rol) {
         return Jwts.builder()
                 .setSubject(correo)
-                .claim("rol", "ROLE_" + rol)
+                .claim("rol", rol)
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + expirationMs))
                 .signWith(secretKey)

@@ -32,6 +32,7 @@ public class RestauranteController {
 
     // Crear restaurante
     @PostMapping
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<RestauranteResponse> crearRestaurante(
             @Valid @RequestBody CrearRestauranteRequest request) {
 
