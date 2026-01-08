@@ -6,6 +6,7 @@ import com.plaza.plazoleta_service.application.handler.CrearPlatoHandler;
 import com.plaza.plazoleta_service.application.mapper.PlatoMapper;
 import com.plaza.plazoleta_service.domain.api.ICrearPlatoService;
 import com.plaza.plazoleta_service.domain.model.Plato;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -25,4 +26,5 @@ public class CrearPlatoHandlerImpl implements CrearPlatoHandler {
         Plato platoCreado = crearPlatoService.crearPlato(plato, idPropietario);
         return platoMapper.toResponse(platoCreado);
     }
+
 }

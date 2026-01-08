@@ -37,6 +37,7 @@ public class PlatoController {
     }
 
 
+    @PreAuthorize("hasRole('PROPIETARIO')")
     @PostMapping
     public ResponseEntity<PlatoResponse> crearPlato(
             @Valid @RequestBody CrearPlatoRequest request,
@@ -46,6 +47,7 @@ public class PlatoController {
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
+    @PreAuthorize("hasRole('PROPIETARIO')")
     @PutMapping("/{idPlato}")
     public ResponseEntity<ModificarPlatoResponse> modificarPlato(
             @PathVariable Long idPlato,
@@ -61,6 +63,7 @@ public class PlatoController {
     }
 
     @PatchMapping("/{idPlato}/estado")
+    @PreAuthorize("hasRole('PROPIETARIO')")
     public ResponseEntity<CambiarEstadoPlatoResponse> cambiarEstadoPlato(
             @PathVariable Long idPlato,
             @Valid @RequestBody CambiarEstadoPlatoRequest request,

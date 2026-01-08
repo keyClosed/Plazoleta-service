@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class RestauranteEntityMapper {
 
-    // Modelo de dominio → Entidad JPA
+
     public RestauranteEntity restauranteToEntity(Restaurante restaurante) {
         if (restaurante == null) return null;
 
@@ -22,7 +22,6 @@ public class RestauranteEntityMapper {
         return entity;
     }
 
-    // Entidad JPA → Modelo de dominio
     public Restaurante entityToRestaurante(RestauranteEntity entity) {
         if (entity == null) return null;
 

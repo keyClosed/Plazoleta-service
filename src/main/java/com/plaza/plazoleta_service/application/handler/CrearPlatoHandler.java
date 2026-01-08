@@ -6,4 +6,5 @@ import com.plaza.plazoleta_service.application.dto.response.PlatoResponse;
 public interface CrearPlatoHandler {
 
     PlatoResponse crearPlato(CrearPlatoRequest request, Long idPropietario);
+
 }
