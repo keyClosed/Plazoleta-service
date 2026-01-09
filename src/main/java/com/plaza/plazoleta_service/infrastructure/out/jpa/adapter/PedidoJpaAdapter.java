@@ -5,6 +5,8 @@ import com.plaza.plazoleta_service.domain.spi.IPedidoPersistencePort;
 import com.plaza.plazoleta_service.infrastructure.out.jpa.entity.PedidoEntity;
 import com.plaza.plazoleta_service.infrastructure.out.jpa.mapper.PedidoEntityMapper;
 import com.plaza.plazoleta_service.infrastructure.out.jpa.repository.PedidoRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -54,4 +56,10 @@ public class PedidoJpaAdapter implements IPedidoPersistencePort {
                 .map(pedidoEntityMapper::entityToPedido)
                 .collect(Collectors.toList());
     }
+    @Override
+    public Page<Pedido> listarPedidosPorRestauranteYEstado(Long idRestaurante, String estado, Pageable pageable) {
+        return pedidoRepository.findByRestauranteIdAndEstado(idRestaurante, estado, pageable)
+                .map(pedidoEntityMapper::entityToPedido);
+    }
+
 }

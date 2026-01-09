@@ -52,6 +52,11 @@ public class BeanConfig{
                                                        IPlatoPersistencePort platoPersistencePort) {
         return new RealizarPedidoUseCase(pedidoPersistencePort, platoPersistencePort);
     }
+    @Bean
+    public ListarPedidosUseCase listarPedidosUseCase(IPedidoPersistencePort pedidoPersistencePort) {
+        return new ListarPedidosUseCase(pedidoPersistencePort);
+    }
+
 
 
 }
