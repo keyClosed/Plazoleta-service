@@ -7,7 +7,7 @@ public class PedidoResponse {
     private Long clienteId;
     private Long restauranteId;
     private String estado;
-    private List<PlatoPedidoResponse> platos; // ← muy importante
+    private List<PlatoPedidoResponse> platos;
 
     // Getters y setters
     public Long getId() { return id; }

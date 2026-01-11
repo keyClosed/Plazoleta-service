@@ -77,30 +77,6 @@ public class PlatoController {
                 );
         return ResponseEntity.ok(response);
     }
-    @GetMapping("/restaurante/{idRestaurante}")
-    @PreAuthorize("hasRole('CLIENTE')")
-    public ResponseEntity<PageResponse<ListarPlatoResponse>> listarPlatos(
-            @PathVariable Long idRestaurante,
-            @RequestParam int page,
-            @RequestParam int size,
-            @RequestParam(required = false) String categoria
-    ) {
-        Page<ListarPlatoResponse> result =
-                listarPlatosHandlerImpl.listar(idRestaurante, page, size, categoria);
-
-        PageResponse<ListarPlatoResponse> response =
-                new PageResponse<>(
-                        result.getContent(),
-                        result.getNumber(),
-                        result.getSize(),
-                        result.getTotalElements()
-                );
-
-        return ResponseEntity.ok(response);
-    }
-
-
-
 
 
 }

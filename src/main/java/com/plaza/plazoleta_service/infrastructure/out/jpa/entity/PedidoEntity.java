@@ -25,57 +25,31 @@ public class PedidoEntity {
     @Column(name = "fecha_creacion", nullable = false)
     private LocalDateTime fechaCreacion = LocalDateTime.now();
 
+    @Column(name = "empleado_asignado")
+    private Long empleadoAsignado;
+
     @OneToMany(mappedBy = "pedido", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<PlatoPedidoEntity> platos = new ArrayList<>();
 
+    // ----- Getters y Setters -----
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
 
-    public Long getId() {
-        return id;
-    }
+    public Long getClienteId() { return clienteId; }
+    public void setClienteId(Long clienteId) { this.clienteId = clienteId; }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+    public Long getRestauranteId() { return restauranteId; }
+    public void setRestauranteId(Long restauranteId) { this.restauranteId = restauranteId; }
 
-    public Long getClienteId() {
-        return clienteId;
-    }
+    public String getEstado() { return estado; }
+    public void setEstado(String estado) { this.estado = estado; }
 
-    public void setClienteId(Long clienteId) {
-        this.clienteId = clienteId;
-    }
+    public LocalDateTime getFechaCreacion() { return fechaCreacion; }
+    public void setFechaCreacion(LocalDateTime fechaCreacion) { this.fechaCreacion = fechaCreacion; }
 
-    public Long getRestauranteId() {
-        return restauranteId;
-    }
+    public Long getEmpleadoAsignado() { return empleadoAsignado; }
+    public void setEmpleadoAsignado(Long empleadoAsignado) { this.empleadoAsignado = empleadoAsignado; }
 
-    public void setRestauranteId(Long restauranteId) {
-        this.restauranteId = restauranteId;
-    }
-
-    public String getEstado() {
-        return estado;
-    }
-
-    public void setEstado(String estado) {
-        this.estado = estado;
-    }
-
-    public LocalDateTime getFechaCreacion() {
-        return fechaCreacion;
-    }
-
-    public void setFechaCreacion(LocalDateTime fechaCreacion) {
-        this.fechaCreacion = fechaCreacion;
-    }
-
-    public List<PlatoPedidoEntity> getPlatos() {
-        return platos;
-    }
-
-    public void setPlatos(List<PlatoPedidoEntity> platos) {
-        this.platos = platos;
-    }
-
-
+    public List<PlatoPedidoEntity> getPlatos() { return platos; }
+    public void setPlatos(List<PlatoPedidoEntity> platos) { this.platos = platos; }
 }

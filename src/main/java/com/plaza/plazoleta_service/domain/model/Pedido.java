@@ -8,6 +8,7 @@ public class Pedido {
     private Long restauranteId;
     private List<PlatoPedido> platos;
     private String estado;
+    private Long empleadoAsignadoId;
 
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
@@ -23,4 +24,7 @@ public class Pedido {
 
     public String getEstado() { return estado; }
     public void setEstado(String estado) { this.estado = estado; }
+
+    public Long getEmpleadoAsignadoId() { return empleadoAsignadoId; }
+    public void setEmpleadoAsignadoId(Long empleadoAsignadoId) { this.empleadoAsignadoId = empleadoAsignadoId; }
 }
