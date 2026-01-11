@@ -56,10 +56,11 @@ public class BeanConfig{
     public ListarPedidosUseCase listarPedidosUseCase(IPedidoPersistencePort pedidoPersistencePort) {
         return new ListarPedidosUseCase(pedidoPersistencePort);
     }
+    @Bean
+    public AsignarsePedidoUseCase asignarsePedidoUseCase(IPedidoPersistencePort pedidoPersistencePort) {
+        return new AsignarsePedidoUseCase(pedidoPersistencePort);
+    }
 
 
 
 }
-
-
-

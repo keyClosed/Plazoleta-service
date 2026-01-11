@@ -37,41 +37,6 @@ public class PedidoController {
         }
     }
 
-    @RestController
-    @RequestMapping("/pedidos")
-    @PreAuthorize("hasRole('EMPLEADO')")
-    public class PedidoEmpleadoController {
-
-        private final ListarPedidosHandler listarPedidosHandler;
-
-        public PedidoEmpleadoController(ListarPedidosHandler listarPedidosHandler) {
-            this.listarPedidosHandler = listarPedidosHandler;
-        }
-
-        @GetMapping("/restaurante/{idRestaurante}")
-        public ResponseEntity<PageResponse<ListarPedidosResponse>> listarPedidosPorEstado(
-                @PathVariable Long idRestaurante,
-                @RequestParam String estado,
-                @RequestParam int page,
-                @RequestParam int size
-        ) {
-
-            Page<ListarPedidosResponse> pedidos = listarPedidosHandler
-                    .listarPedidosPorEstado(idRestaurante, estado, page, size);
-
-            PageResponse<ListarPedidosResponse> response = new PageResponse<>(
-                    pedidos.getContent(),
-                    pedidos.getNumber(),
-                    pedidos.getSize(),
-                    pedidos.getTotalElements()
-            );
-
-            return ResponseEntity.ok(response);
-        }
-    }
-
-
-
 
 
 }

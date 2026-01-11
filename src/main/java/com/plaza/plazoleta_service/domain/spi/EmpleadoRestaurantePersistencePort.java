@@ -1,4 +1,6 @@
 package com.plaza.plazoleta_service.domain.spi;
 
-public class EmpleadoRestaurantePersistencePort {
+public interface EmpleadoRestaurantePersistencePort {
+
+    Long obtenerRestauranteIdPorEmpleado(Long idEmpleado);
 }
