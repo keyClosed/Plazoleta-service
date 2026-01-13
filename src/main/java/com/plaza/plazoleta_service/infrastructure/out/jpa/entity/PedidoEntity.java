@@ -27,11 +27,15 @@ public class PedidoEntity {
 
     @Column(name = "empleado_asignado")
     private Long empleadoAsignado;
+    @Column(name = "telefono_cliente")
+    private String telefonoCliente;
+
+    @Column(name = "pin_seguridad")
+    private Integer pinSeguridad;
 
     @OneToMany(mappedBy = "pedido", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<PlatoPedidoEntity> platos = new ArrayList<>();
 
-    // ----- Getters y Setters -----
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
 
@@ -49,6 +53,12 @@ public class PedidoEntity {
 
     public Long getEmpleadoAsignado() { return empleadoAsignado; }
     public void setEmpleadoAsignado(Long empleadoAsignado) { this.empleadoAsignado = empleadoAsignado; }
+
+    public String getTelefonoCliente() { return telefonoCliente; }
+    public void setTelefonoCliente(String telefonoCliente) { this.telefonoCliente = telefonoCliente; }
+
+    public Integer getPinSeguridad() { return pinSeguridad; }
+    public void setPinSeguridad(Integer pinSeguridad) { this.pinSeguridad = pinSeguridad; }
 
     public List<PlatoPedidoEntity> getPlatos() { return platos; }
     public void setPlatos(List<PlatoPedidoEntity> platos) { this.platos = platos; }

@@ -14,17 +14,18 @@ import java.util.stream.Collectors;
 @Component
 public class PedidoMapper {
 
-    public Pedido toModel(PedidoRequest request) {
+    public Pedido toModel(PedidoRequest request, Long clienteId) {
         Pedido pedido = new Pedido();
-        pedido.setClienteId(request.getClienteId());
+        pedido.setClienteId(clienteId);
         pedido.setRestauranteId(request.getRestauranteId());
 
-        List<PlatoPedido> platos = request.getPlatos().stream().map(this::toModelPlatoPedido).collect(Collectors.toList());
+        List<PlatoPedido> platos = request.getPlatos().stream()
+                .map(this::toModelPlatoPedido)
+                .collect(Collectors.toList());
         pedido.setPlatos(platos);
 
         return pedido;
     }
-
     private PlatoPedido toModelPlatoPedido(PlatoPedidoRequest request) {
         PlatoPedido platoPedido = new PlatoPedido();
         platoPedido.setPlatoId(request.getPlatoId());

@@ -21,6 +21,8 @@ public class PedidoEntityMapper {
         pedido.setRestauranteId(entity.getRestauranteId());
         pedido.setEstado(entity.getEstado());
         pedido.setEmpleadoAsignadoId(entity.getEmpleadoAsignado());
+        pedido.setClienteTelefono(entity.getTelefonoCliente());
+        pedido.setPinSeguridad(entity.getPinSeguridad());
 
         List<PlatoPedido> platos = entity.getPlatos().stream().map(platoEntity -> {
             PlatoPedido plato = new PlatoPedido();
@@ -45,6 +47,9 @@ public class PedidoEntityMapper {
         entity.setRestauranteId(pedido.getRestauranteId());
         entity.setEstado(pedido.getEstado());
         entity.setEmpleadoAsignado(pedido.getEmpleadoAsignadoId());
+        entity.setTelefonoCliente(pedido.getClienteTelefono());
+        entity.setPinSeguridad(pedido.getPinSeguridad());
+
 
         List<PlatoPedidoEntity> platosEntity = pedido.getPlatos().stream().map(plato -> {
             PlatoPedidoEntity platoEntity = new PlatoPedidoEntity();

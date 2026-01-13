@@ -27,12 +27,9 @@ public class AsignarsePedidoUseCase implements IAsignarsePedidoService {
             throw new PedidoException("Pedido no encontrado");
         }
 
-        // Validación opcional: que el empleado pertenezca al restaurante
-        // if (!pedido.getRestauranteId().equals(idRestauranteEmpleado)) {
-        //     throw new PedidoException("No puedes asignarte a un pedido de otro restaurante");
-        // }
 
-        pedido.setEmpleadoAsignadoId(idEmpleado); // <-- CORRECTO
+
+        pedido.setEmpleadoAsignadoId(idEmpleado);
         pedido.setEstado("EN_PREPARACION");
 
         return pedidoPersistencePort.guardarPedido(pedido);

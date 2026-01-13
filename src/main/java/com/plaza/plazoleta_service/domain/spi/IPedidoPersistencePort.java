@@ -16,4 +16,5 @@ public interface IPedidoPersistencePort {
     List<Pedido> listarPedidosPorCliente(Long clienteId);
     Page<Pedido> listarPedidosPorRestauranteYEstado(Long idRestaurante, String estado, Pageable pageable);
 
+
 }
