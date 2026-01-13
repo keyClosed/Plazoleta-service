@@ -71,6 +71,14 @@ public class BeanConfig{
         return new PedidoListoUseCase(pedidoPersistencePort, mensajeriaPort);
     }
 
+    @Bean
+    public EntregarPedidoUseCase entregarPedidoUseCase(
+            IPedidoPersistencePort pedidoPersistencePort
+    ) {
+        return new EntregarPedidoUseCase(pedidoPersistencePort);
+    }
+
+
 
 
 
