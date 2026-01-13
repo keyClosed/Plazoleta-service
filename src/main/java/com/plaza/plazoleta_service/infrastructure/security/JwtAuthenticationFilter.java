@@ -47,7 +47,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         String path = request.getServletPath();
 
-        // 🔓 Endpoints públicos
         if (path.startsWith("/auth")) {
             filterChain.doFilter(request, response);
             return;
@@ -66,11 +65,10 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 List<GrantedAuthority> authorities =
                         List.of(new SimpleGrantedAuthority("ROLE_" + rol));
 
-                // ✅ EL TOKEN VA COMO CREDENTIALS
                 UsernamePasswordAuthenticationToken authentication =
                         new UsernamePasswordAuthenticationToken(
                                 correo,
-                                token,        // ✅ AQUÍ
+                                token,
                                 authorities
                         );
 

@@ -13,24 +13,16 @@ public class JwtUtil {
 
     private final Key secretKey = Keys.hmacShaKeyFor("miClaveparalaconexiondelosmicroservicios".getBytes());
 
-    private final long expirationMs = 3600000; // 1 hora
-
-    public String generateToken(String correo, String rol) {
-        return Jwts.builder()
-                .setSubject(correo)
-                .claim("rol", rol)
-                .setIssuedAt(new Date())
-                .setExpiration(new Date(System.currentTimeMillis() + expirationMs))
-                .signWith(secretKey)
-                .compact();
-    }
-
     public String getCorreoFromToken(String token) {
         return getClaims(token).getSubject();
     }
 
     public String getRolFromToken(String token) {
         return getClaims(token).get("rol", String.class);
+    }
+
+    public Long getUserIdFromToken(String token) {
+        return getClaims(token).get("userId", Long.class);
     }
 
     public boolean validateToken(String token) {

@@ -4,6 +4,5 @@ import com.plaza.plazoleta_service.application.dto.request.PedidoRequest;
 import com.plaza.plazoleta_service.application.dto.response.PedidoResponse;
 
 public interface RealizarPedidoHandler {
-
-    PedidoResponse crearPedido(PedidoRequest request) throws Exception;
+    PedidoResponse crearPedido(PedidoRequest request, Long clienteId, String token) throws Exception;
 }
