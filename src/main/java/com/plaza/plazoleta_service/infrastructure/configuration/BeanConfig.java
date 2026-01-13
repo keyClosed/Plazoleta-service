@@ -78,6 +78,14 @@ public class BeanConfig{
         return new EntregarPedidoUseCase(pedidoPersistencePort);
     }
 
+    @Bean
+    public CancelarPedidoUseCase cancelarPedidoUseCase(
+            IPedidoPersistencePort pedidoPersistencePort
+    ) {
+        return new CancelarPedidoUseCase(pedidoPersistencePort);
+    }
+
+
 
 
 
