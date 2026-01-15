@@ -16,7 +16,6 @@ public class EmpleadoEntity {
     @JoinColumn(name = "restaurante_id") // FK hacia restaurante
     private RestauranteEntity restaurante;
 
-    // Getters y setters
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
 

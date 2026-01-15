@@ -6,10 +6,10 @@ import com.plaza.plazoleta_service.domain.model.Plato;
 import com.plaza.plazoleta_service.domain.model.PlatoPedido;
 import com.plaza.plazoleta_service.domain.spi.IPedidoPersistencePort;
 import com.plaza.plazoleta_service.domain.spi.IPlatoPersistencePort;
+import com.plaza.plazoleta_service.domain.spi.ITrazabilidadClientPort;
 import com.plaza.plazoleta_service.domain.usecase.RealizarPedidoUseCase;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 
 import java.util.*;
 
@@ -20,40 +20,43 @@ public class RealizarPedidoUseCaseTest {
 
     private IPedidoPersistencePort pedidoPersistencePort;
     private IPlatoPersistencePort platoPersistencePort;
+    private ITrazabilidadClientPort trazabilidadClientPort;
     private RealizarPedidoUseCase realizarPedidoUseCase;
 
     @BeforeEach
     void setUp() {
         pedidoPersistencePort = mock(IPedidoPersistencePort.class);
         platoPersistencePort = mock(IPlatoPersistencePort.class);
-        realizarPedidoUseCase = new RealizarPedidoUseCase(pedidoPersistencePort, platoPersistencePort);
+        trazabilidadClientPort = mock(ITrazabilidadClientPort.class);
+
+        // ✅ CORREGIDO: Ahora pasa 3 parámetros
+        realizarPedidoUseCase = new RealizarPedidoUseCase(
+                pedidoPersistencePort,
+                platoPersistencePort,
+                trazabilidadClientPort
+        );
     }
 
-    // Generador de IDs aleatorios
     private long randomId() {
         return new Random().nextInt(1000) + 1;
     }
 
-    // Generador de nombres aleatorios
     private String randomNombre() {
         String[] nombres = {"Hamburguesa Doble", "Lasaña", "Pizza Pepperoni", "Ensalada César"};
         return nombres[new Random().nextInt(nombres.length)];
     }
 
-    // Generador de precio aleatorio
     private long randomPrecio() {
-        return (new Random().nextInt(50) + 1) * 1000; // entre 1000 y 50000
+        return (new Random().nextInt(50) + 1) * 1000;
     }
 
     @Test
     void crearPedidoAleatorioExitoso() {
-        // Datos aleatorios
         long clienteId = randomId();
         long restauranteId = randomId();
         long platoId1 = randomId();
         long platoId2 = randomId();
 
-        // Pedido
         Pedido pedido = new Pedido();
         pedido.setClienteId(clienteId);
         pedido.setRestauranteId(restauranteId);
@@ -68,10 +71,8 @@ public class RealizarPedidoUseCaseTest {
 
         pedido.setPlatos(Arrays.asList(plato1, plato2));
 
-        // Mock: cliente no tiene pedidos en proceso
         when(pedidoPersistencePort.tienePedidoEnProceso(clienteId)).thenReturn(false);
 
-        // Mock: los platos existen en BD
         Plato platoBD1 = new Plato();
         platoBD1.setId(platoId1);
         platoBD1.setNombre(randomNombre());
@@ -87,8 +88,14 @@ public class RealizarPedidoUseCaseTest {
         when(platoPersistencePort.obtenerPlatoPorId(platoId1)).thenReturn(Optional.of(platoBD1));
         when(platoPersistencePort.obtenerPlatoPorId(platoId2)).thenReturn(Optional.of(platoBD2));
 
-        // Mock: guardar pedido
-        when(pedidoPersistencePort.guardarPedido(any(Pedido.class))).thenAnswer(invocation -> invocation.getArgument(0));
+        Pedido pedidoConId = new Pedido();
+        pedidoConId.setId(randomId());
+        pedidoConId.setClienteId(clienteId);
+        pedidoConId.setRestauranteId(restauranteId);
+        pedidoConId.setEstado("PENDIENTE");
+        pedidoConId.setPlatos(pedido.getPlatos());
+
+        when(pedidoPersistencePort.guardarPedido(any(Pedido.class))).thenReturn(pedidoConId);
 
         Pedido pedidoGuardado = realizarPedidoUseCase.ejecutar(pedido);
 
@@ -96,6 +103,13 @@ public class RealizarPedidoUseCaseTest {
         assertEquals(2, pedidoGuardado.getPlatos().size());
         assertNotNull(pedidoGuardado.getPlatos().get(0).getNombre());
         assertTrue(pedidoGuardado.getPlatos().get(0).getPrecio() > 0);
+
+        verify(trazabilidadClientPort, times(1)).registrarCambioEstado(
+                eq(pedidoGuardado.getId()),
+                eq(clienteId),
+                eq("PENDIENTE"),
+                anyString()
+        );
     }
 
     @Test
@@ -121,6 +135,8 @@ public class RealizarPedidoUseCaseTest {
                 () -> realizarPedidoUseCase.ejecutar(pedido));
 
         assertEquals("El plato con ID " + platoId + " no existe", ex.getMessage());
+
+        verify(trazabilidadClientPort, never()).registrarCambioEstado(anyLong(), anyLong(), anyString(), anyString());
     }
 
     @Test
@@ -146,7 +162,7 @@ public class RealizarPedidoUseCaseTest {
         platoBD.setId(platoId);
         platoBD.setNombre(randomNombre());
         platoBD.setPrecio(randomPrecio());
-        platoBD.setIdRestaurante(otroRestauranteId); // plato de otro restaurante
+        platoBD.setIdRestaurante(otroRestauranteId);
 
         when(platoPersistencePort.obtenerPlatoPorId(platoId)).thenReturn(Optional.of(platoBD));
 
@@ -154,5 +170,8 @@ public class RealizarPedidoUseCaseTest {
                 () -> realizarPedidoUseCase.ejecutar(pedido));
 
         assertEquals("Todos los platos deben pertenecer al mismo restaurante", ex.getMessage());
+
+
+        verify(trazabilidadClientPort, never()).registrarCambioEstado(anyLong(), anyLong(), anyString(), anyString());
     }
 }

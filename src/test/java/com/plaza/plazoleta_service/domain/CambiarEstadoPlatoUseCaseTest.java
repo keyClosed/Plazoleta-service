@@ -48,7 +48,6 @@ class CambiarEstadoPlatoUseCaseTest {
         when(platoPersistencePort.esPropietarioDelRestaurante(plato.getIdPropietario(), plato.getIdRestaurante())).thenReturn(true);
         when(platoPersistencePort.guardarPlato(any())).thenAnswer(i -> i.getArgument(0));
 
-        // Cambiar estado
         boolean nuevoEstado = !plato.isActivo();
         Plato resultado = cambiarEstadoPlatoUseCase.cambiarEstadoPlato(plato.getId(), plato.getIdPropietario(), nuevoEstado);
 

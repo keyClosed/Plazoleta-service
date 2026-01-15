@@ -53,7 +53,6 @@ class AsignarsePedidoUseCaseTest {
         long idEmpleado = ThreadLocalRandom.current().nextLong(1, 1000);
         String estadoInicial = "PENDIENTE";
 
-        // GIVEN
         Pedido pedido = new Pedido();
         pedido.setId(idPedido);
         pedido.setEstado(estadoInicial);

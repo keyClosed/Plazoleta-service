@@ -5,6 +5,7 @@ import com.plaza.plazoleta_service.domain.exception.PedidoException;
 import com.plaza.plazoleta_service.domain.model.Pedido;
 import com.plaza.plazoleta_service.domain.spi.IPedidoPersistencePort;
 import com.plaza.plazoleta_service.domain.spi.MensajeriaPersistencePort;
+import com.plaza.plazoleta_service.domain.spi.ITrazabilidadClientPort;
 import com.plaza.plazoleta_service.application.dto.request.MensajeSmsRequest;
 import com.plaza.plazoleta_service.application.dto.response.MensajeSmsResponse;
 import org.springframework.stereotype.Service;
@@ -15,11 +16,14 @@ public class PedidoListoUseCase implements IPedidoListoService {
 
     private final IPedidoPersistencePort pedidoPersistencePort;
     private final MensajeriaPersistencePort mensajeriaPort;
+    private final ITrazabilidadClientPort trazabilidadClientPort;
 
     public PedidoListoUseCase(IPedidoPersistencePort pedidoPersistencePort,
-                              MensajeriaPersistencePort mensajeriaPort) {
+                              MensajeriaPersistencePort mensajeriaPort,
+                              ITrazabilidadClientPort trazabilidadClientPort) {
         this.pedidoPersistencePort = pedidoPersistencePort;
         this.mensajeriaPort = mensajeriaPort;
+        this.trazabilidadClientPort = trazabilidadClientPort;
     }
 
     @Override
@@ -33,6 +37,17 @@ public class PedidoListoUseCase implements IPedidoListoService {
         pedido.setEstado("LISTO");
 
         Pedido pedidoGuardado = pedidoPersistencePort.guardarPedido(pedido);
+
+        try {
+            trazabilidadClientPort.registrarCambioEstado(
+                    pedidoGuardado.getId(),
+                    pedidoGuardado.getClienteId(),
+                    "LISTO",
+                    "Pedido listo para recoger. SMS enviado al cliente"
+            );
+        } catch (Exception e) {
+            System.err.println("No se pudo registrar trazabilidad: " + e.getMessage());
+        }
 
         if (pedidoGuardado.getClienteTelefono() != null && pedidoGuardado.getPinSeguridad() != null) {
             String mensajeSms = String.format(

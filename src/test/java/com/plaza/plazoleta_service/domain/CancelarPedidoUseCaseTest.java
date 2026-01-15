@@ -36,7 +36,6 @@ class CancelarPedidoUseCaseTest {
         random = new Random();
     }
 
-    // Método helper para generar pedidos con datos aleatorios
     private Pedido generarPedidoAleatorio(String estado) {
         Pedido pedido = new Pedido();
         pedido.setId(random.nextLong(1, 10000));
@@ -99,11 +98,10 @@ class CancelarPedidoUseCaseTest {
 
     @Test
     void deberiaLanzarExcepcionCuandoPedidoNoExiste() {
-        // Arrange
+
         Long pedidoIdInexistente = random.nextLong(10000, 99999);
         when(pedidoPersistencePort.obtenerPedidoPorId(pedidoIdInexistente)).thenReturn(null);
 
-        // Act & Assert
         PedidoException exception = assertThrows(
                 PedidoException.class,
                 () -> cancelarPedidoUseCase.cancelarPedido(pedidoIdInexistente)

@@ -31,7 +31,6 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .anyRequest().authenticated()
                 )
-                // ⚡ Manejo de errores 401 y 403 en JSON
                 .exceptionHandling(exception -> exception
                         .authenticationEntryPoint((request, response, authException) -> {
                             response.setContentType("application/json");
@@ -44,7 +43,6 @@ public class SecurityConfig {
                             response.getWriter().write("{\"error\":\"Acceso denegado\"}");
                         })
                 )
-                // ⚡ Registrar el filtro JWT antes del filtro de Spring Security
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
