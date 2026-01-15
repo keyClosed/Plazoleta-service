@@ -7,6 +7,7 @@ import com.plaza.plazoleta_service.domain.model.PlatoPedido;
 import com.plaza.plazoleta_service.domain.model.Plato;
 import com.plaza.plazoleta_service.domain.spi.IPedidoPersistencePort;
 import com.plaza.plazoleta_service.domain.spi.IPlatoPersistencePort;
+import com.plaza.plazoleta_service.domain.spi.ITrazabilidadClientPort;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -14,11 +15,14 @@ public class RealizarPedidoUseCase implements IRealizarPedido {
 
     private final IPedidoPersistencePort pedidoPersistencePort;
     private final IPlatoPersistencePort platoPersistencePort;
+    private final ITrazabilidadClientPort trazabilidadClientPort;
 
     public RealizarPedidoUseCase(IPedidoPersistencePort pedidoPersistencePort,
-                                 IPlatoPersistencePort platoPersistencePort) {
+                                 IPlatoPersistencePort platoPersistencePort,
+                                 ITrazabilidadClientPort trazabilidadClientPort) {
         this.pedidoPersistencePort = pedidoPersistencePort;
         this.platoPersistencePort = platoPersistencePort;
+        this.trazabilidadClientPort = trazabilidadClientPort;
     }
 
     @Override
@@ -43,7 +47,6 @@ public class RealizarPedidoUseCase implements IRealizarPedido {
                             "El plato con ID " + platoPedido.getPlatoId() + " no existe"
                     ));
 
-
             if (!platoBD.getIdRestaurante().equals(pedido.getRestauranteId())) {
                 throw new PedidoException("Todos los platos deben pertenecer al mismo restaurante");
             }
@@ -54,6 +57,20 @@ public class RealizarPedidoUseCase implements IRealizarPedido {
 
         pedido.setEstado("PENDIENTE");
 
-        return pedidoPersistencePort.guardarPedido(pedido);
+        Pedido pedidoGuardado = pedidoPersistencePort.guardarPedido(pedido);
+
+
+        try {
+            trazabilidadClientPort.registrarCambioEstado(
+                    pedidoGuardado.getId(),
+                    pedidoGuardado.getClienteId(),
+                    "PENDIENTE",
+                    "Pedido creado"
+            );
+        } catch (Exception e) {
+            System.err.println("No se pudo registrar trazabilidad: " + e.getMessage());
+        }
+
+        return pedidoGuardado;
     }
 }

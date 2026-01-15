@@ -32,7 +32,6 @@ public class PropietarioClientAdapter implements IPropietarioClientPort {
             String url = usuariosServiceUrl + "/" + id;
             System.out.println(">> URL que se va a llamar: " + url);
 
-            // 🔐 Obtener JWT del contexto de seguridad
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
             String token = (String) authentication.getCredentials();
 

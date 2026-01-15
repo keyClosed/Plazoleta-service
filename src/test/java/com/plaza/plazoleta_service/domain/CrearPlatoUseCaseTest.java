@@ -26,7 +26,6 @@ class CrearPlatoUseCaseTest {
         random = new Random();
     }
 
-    // Genera un Plato con todos los campos aleatorios
     private Plato generarPlatoAleatorio(Long idRestaurante, Long idPropietario) {
         Plato plato = new Plato();
         plato.setNombre("Plato-" + UUID.randomUUID().toString().substring(0, 5));
@@ -39,7 +38,6 @@ class CrearPlatoUseCaseTest {
         return plato;
     }
 
-    // id aleatorio para propietario o restaurante
     private Long generarIdAleatorio() {
         return (long) (random.nextInt(1000) + 1); // entre 1 y 1000
     }

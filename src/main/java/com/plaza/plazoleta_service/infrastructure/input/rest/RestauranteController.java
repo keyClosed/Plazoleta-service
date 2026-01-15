@@ -29,8 +29,6 @@ public class RestauranteController {
         this.listarRestaurantesHandler = listarRestaurantesHandler;
     }
 
-
-    // Crear restaurante
     @PostMapping
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<RestauranteResponse> crearRestaurante(
